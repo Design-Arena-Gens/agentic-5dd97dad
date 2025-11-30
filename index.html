@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sketch Tac Toe</title>
+    <meta name="description" content="Sketch-style Tic Tac Toe: local multiplayer or vs CPU" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Short+Stack&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header class="app-header">
+        <h1 class="title">Sketch Tac Toe</h1>
+      </header>
+
+      <main>
+        <!-- Landing View -->
+        <section id="landing" class="view active">
+          <div class="card">
+            <h2>Choose Mode</h2>
+            <div class="btn-row">
+              <button class="btn btn-primary" id="btn-vs-cpu" aria-label="Play vs Computer">VS Computer</button>
+              <button class="btn btn-secondary" id="btn-local" aria-label="Play Local Multiplayer">Local Multiplayer</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Game View -->
+        <section id="game" class="view">
+          <div class="game-top">
+            <div class="scoreboard">
+              <div class="player-pill" id="pill-x" data-player="X">
+                <span class="mark">X</span>
+                <span class="label">Player X</span>
+              </div>
+              <div class="score">
+                <span id="score-x">0</span>
+                <span class="sep">:</span>
+                <span id="score-o">0</span>
+              </div>
+              <div class="player-pill" id="pill-o" data-player="O">
+                <span class="mark">O</span>
+                <span class="label" id="pill-o-label">Player O</span>
+              </div>
+            </div>
+
+            <div class="controls">
+              <button class="btn" id="btn-reset" aria-label="Reset Round">Reset Round</button>
+              <button class="btn" id="btn-menu" aria-label="Back to Menu">Menu</button>
+            </div>
+
+            <div class="mode-badge" id="mode-badge">Mode: Local</div>
+          </div>
+
+          <div class="board-wrap">
+            <div id="board" class="board" role="grid" aria-label="Tic Tac Toe board"></div>
+          </div>
+
+          <div id="status" class="status" aria-live="polite"></div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <span>Black & White Sketch ? No. 3 graphite</span>
+      </footer>
+    </div>
+
+    <script src="/script.js" type="module"></script>
+  </body>
+</html>

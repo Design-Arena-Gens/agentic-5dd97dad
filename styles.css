@@ -1,0 +1,145 @@
+/* Sketch Tac Toe - grayscale hand-drawn aesthetic */
+:root{
+  --ink:#111;
+  --paper:#fafafa;
+  --graphite:#222;
+  --shade:#777;
+  --light:#bbb;
+  --shadow:#e6e6e6;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  color:var(--ink);
+  background: var(--paper);
+  font-family: 'Gloria Hallelujah', 'Short Stack', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  letter-spacing: 0.2px;
+}
+
+.app-header, .app-footer{
+  padding: 16px 20px;
+  display:flex; align-items:center; justify-content:center;
+}
+.title{
+  margin:0; font-weight:700; font-size: clamp(28px, 5vw, 42px);
+  position:relative; display:inline-block;
+}
+.title::after{
+  content:""; position:absolute; left:-4px; right:-4px; bottom:-6px; height:10px;
+  background: repeating-linear-gradient(90deg, var(--shadow), var(--shadow) 3px, transparent 3px, transparent 6px);
+  transform: rotate(-1.2deg);
+}
+
+main{display:grid; place-items:center}
+.view{display:none; width: min(1050px, 92vw);}
+.view.active{display:block; animation: fadeIn 420ms ease-out}
+
+.card{
+  margin: 40px auto; padding: 28px 22px; background: var(--white);
+  border: 2px solid var(--ink); border-radius: 12px;
+  position: relative;
+  box-shadow: 0 3px 0 0 var(--ink), 2px 2px 0 0 var(--ink) inset, -2px -2px 0 0 var(--ink) inset;
+}
+.card::before, .card::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  border:2px solid var(--ink); border-radius:12px;
+  transform: translate(3px,3px) rotate(-.8deg);
+  opacity:.25;
+}
+.card h2{margin:8px 12px 20px; font-size:28px}
+.btn-row{display:flex; gap:16px; flex-wrap:wrap; justify-content:center}
+
+.btn{
+  background: var(--white);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  padding: 12px 18px;
+  font: inherit;
+  cursor: pointer;
+  transform: translateZ(0);
+  box-shadow: 0 2px 0 0 var(--ink);
+  position: relative;
+}
+.btn::after{
+  content:""; position:absolute; inset:-3px; border:2px solid var(--ink); border-radius:12px; opacity:.2; transform: rotate(-1.2deg);
+}
+.btn:active{transform: translateY(2px); box-shadow: 0 0 0 0 var(--ink)}
+.btn-primary{filter: grayscale(0)}
+.btn-secondary{filter: grayscale(0.3)}
+
+/* Game layout */
+.game-top{display:grid; gap:12px; margin: 8px auto 18px; align-items:center}
+.scoreboard{display:grid; grid-template-columns: 1fr auto 1fr; gap:14px; align-items:center}
+.player-pill{
+  display:inline-flex; align-items:center; gap:10px; justify-self:start;
+  padding: 8px 10px; border:2px solid var(--ink); border-radius: 999px; background:var(--white);
+  box-shadow: 0 2px 0 0 var(--ink);
+}
+.player-pill .mark{font-weight:700; font-size:20px}
+.player-pill .label{font-size:14px; color:var(--shade)}
+#pill-o{justify-self:end}
+.score{font-size:26px; font-weight:700; letter-spacing:1px}
+.score .sep{margin:0 6px; color:var(--light)}
+.controls{display:flex; gap:10px; justify-content:center}
+.mode-badge{justify-self:center; font-size:14px; color:var(--shade)}
+
+.board-wrap{display:grid; place-items:center}
+.board{
+  width: min(92vw, 520px);
+  aspect-ratio: 1/1;
+  position: relative;
+  background: var(--white);
+  border: 2px solid var(--graphite);
+  border-radius: 12px;
+  box-shadow: 0 4px 0 0 var(--graphite);
+  padding: 10px;
+}
+
+/* Grid using pseudo sketched lines */
+.board::before{
+  content:""; position:absolute; inset:10px; pointer-events:none;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">\
+    <g stroke="%23111" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">\
+      <path d="M33 2 L34 98"/>\
+      <path d="M67 3 L66 97"/>\
+      <path d="M2 33 L98 34"/>\
+      <path d="M3 67 L97 66"/>\
+    </g>\
+  </svg>');
+  background-size: calc(100% - 20px) calc(100% - 20px);
+  background-repeat:no-repeat;
+  background-position:center;
+  filter: contrast(1.1);
+}
+
+.cells{position:absolute; inset:10px; display:grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap:0;}
+.cell{
+  border-radius: 8px;
+  display:grid; place-items:center; position:relative;
+  cursor: pointer; user-select:none;
+}
+.cell:hover{background: rgba(0,0,0,.02)}
+.cell:active{transform: translateY(1px)}
+.cell svg{width: 74%; height: 74%;}
+
+.status{min-height:28px; text-align:center; margin:12px 0 10px; font-size:18px}
+.winner{animation: bounce 900ms ease}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0; transform: translateY(6px)} to{opacity:1; transform: translateY(0)}}
+@keyframes bounce{0%,100%{transform:translateY(0)} 40%{transform:translateY(-6px)} 70%{transform:translateY(-2px)}}
+@keyframes pulse{0%,100%{transform:scale(1)} 50%{transform:scale(1.03)}}
+
+/* Active player emphasis */
+.player-pill.active{box-shadow: 0 4px 0 0 var(--ink); animation: pulse 1200ms ease-in-out infinite}
+
+/* Accessibility */
+.btn:focus-visible, .cell:focus-visible{outline: 3px dashed var(--graphite); outline-offset: 3px}
+
+/* Small screens */
+@media (max-width: 480px){
+  .player-pill .label{display:none}
+}
